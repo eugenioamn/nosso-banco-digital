@@ -1,0 +1,35 @@
+spring:
+  profiles:
+    active: local
+  jpa:
+    database-platform:
+  logging:
+    level:
+      org.springframework.web: ERROR
+      org.hibernate: ERROR
+      com.hdi: INFO
+    pattern:
+      console: "%d %-5level %logger : %msg%n"
+
+application:
+  datasource:
+    url:
+    username:
+    password:
+    driverClassName:
+  swagger:
+    version: 1.0
+    enabled: false
+    title: log-demo API
+    description: "Sample Swagger implementation for the `demo-api` service, leveraging annotations at the controller-method level."
+    basePackage: com.eugeniomoreira.bancodigitalzup.api
+    useDefaultResponseMessages: false
+    enableUrlTemplating: false
+    deepLinking: true
+    defaultModelsExpandDepth: 1
+    defaultModelExpandDepth: 1
+    displayOperationId: false
+    displayRequestDuration: false
+    filter: false
+    maxDisplayedTags: 0
+    showExtensions: false

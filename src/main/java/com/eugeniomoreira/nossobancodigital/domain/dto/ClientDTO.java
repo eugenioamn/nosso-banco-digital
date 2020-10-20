@@ -15,10 +15,28 @@ public class ClientDTO {
 
     private String email;
 
-    @JsonProperty("birthdate")
-    private String birthdate;
+    @JsonProperty("birth_date")
+    private String birthDate;
 
     private String document;
+
+    @JsonProperty("address")
+    private AddressDTO addressDTO;
+
+    private Integer proposalStatus;
+
+    public ClientDTO() {
+    }
+
+    public ClientDTO(String firstName, String lastName, String email, String birthDate, String document, AddressDTO addressDTO, Integer proposalStatus) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.birthDate = birthDate;
+        this.document = document;
+        this.addressDTO = addressDTO;
+        this.proposalStatus = proposalStatus;
+    }
 
     public Long getId() {
         return id;
@@ -52,12 +70,12 @@ public class ClientDTO {
         this.email = email;
     }
 
-    public String getBirthdate() {
-        return birthdate;
+    public String getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirthdate(String birthdate) {
-        this.birthdate = birthdate;
+    public void setBirthDate(String birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getDocument() {
@@ -68,16 +86,46 @@ public class ClientDTO {
         this.document = document;
     }
 
-    public static ClientEntity fromDto(ClientDTO clientDto) {
-        ClientEntity clientEntity = new ClientEntity();
-
-        return clientEntity;
+    public AddressDTO getAddressDTO() {
+        return addressDTO;
     }
 
-    public static ClientDTO toDto(ClientEntity clientEntity) {
-        ClientDTO clientDto = new ClientDTO();
+    public void setAddressDTO(AddressDTO addressDTO) {
+        this.addressDTO = addressDTO;
+    }
 
-        return clientDto;
+    public Integer getProposalStatus() {
+        return proposalStatus;
+    }
+
+    public void setProposalStatus(Integer proposalStatus) {
+        this.proposalStatus = proposalStatus;
+    }
+
+    public static ClientEntity fromDto(ClientDTO clientDTO) {
+        ClientEntity client = new ClientEntity();
+        client.setBirthDate(clientDTO.getBirthDate());
+        client.setDocument(clientDTO.getDocument());
+        client.setEmail(clientDTO.getEmail());
+        client.setFirstName(clientDTO.getFirstName());
+        client.setLastName(clientDTO.getLastName());
+        client.setAddress(AddressDTO.fromDto(clientDTO.getAddressDTO()));
+        client.setProposalStatus(clientDTO.getProposalStatus());
+
+        return client;
+    }
+
+    public static ClientDTO toDto(ClientEntity client) {
+        ClientDTO clientDTO = new ClientDTO();
+        clientDTO.setBirthDate(client.getBirthDate());
+        clientDTO.setDocument(client.getDocument());
+        clientDTO.setEmail(client.getEmail());
+        clientDTO.setFirstName(client.getFirstName());
+        clientDTO.setLastName(client.getLastName());
+        clientDTO.setAddressDTO(AddressDTO.toDto(client.getAddress()));
+        clientDTO.setProposalStatus(client.getProposalStatus());
+
+        return clientDTO;
     }
 
     @Override
@@ -87,8 +135,10 @@ public class ClientDTO {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", birthdate='" + birthdate + '\'' +
+                ", birthDate='" + birthDate + '\'' +
                 ", document='" + document + '\'' +
+                ", addressDTO=" + addressDTO +
+                ", proposalStatus=" + proposalStatus +
                 '}';
     }
 
