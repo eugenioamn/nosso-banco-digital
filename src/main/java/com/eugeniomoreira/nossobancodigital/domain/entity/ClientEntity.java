@@ -1,26 +1,27 @@
 package com.eugeniomoreira.nossobancodigital.domain.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class ClientEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String firstName;
 
     private String lastName;
 
+    @Column(unique = true)
     private String email;
 
     private String birthDate;
 
+    @Column(unique = true)
     private String document;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private AddressEntity address;
 
     private Integer proposalStatus;
@@ -115,4 +116,5 @@ public class ClientEntity {
                 ", proposalStatus=" + proposalStatus +
                 '}';
     }
+
 }

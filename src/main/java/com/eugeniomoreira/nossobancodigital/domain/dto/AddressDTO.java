@@ -1,33 +1,35 @@
 package com.eugeniomoreira.nossobancodigital.domain.dto;
 
 import com.eugeniomoreira.nossobancodigital.domain.entity.AddressEntity;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AddressDTO {
 
     private Long id;
 
+    @JsonProperty("postal_code")
     private String postalCode;
 
-    private String address;
+    private String street;
 
     private String neighborhood;
 
     private String complement;
 
-    private String state;
+    private String city;
 
-    private String country;
+    private String state;
 
     public AddressDTO() {
     }
 
-    public AddressDTO(String postalCode, String address, String neighborhood, String complement, String state, String country) {
+    public AddressDTO(String postalCode, String street, String neighborhood, String complement, String city, String state) {
         this.postalCode = postalCode;
-        this.address = address;
+        this.street = street;
         this.neighborhood = neighborhood;
         this.complement = complement;
+        this.city = city;
         this.state = state;
-        this.country = country;
     }
 
     public Long getId() {
@@ -46,12 +48,12 @@ public class AddressDTO {
         this.postalCode = postalCode;
     }
 
-    public String getAddress() {
-        return address;
+    public String getStreet() {
+        return street;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public String getNeighborhood() {
@@ -70,6 +72,14 @@ public class AddressDTO {
         this.complement = complement;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     public String getState() {
         return state;
     }
@@ -78,44 +88,36 @@ public class AddressDTO {
         this.state = state;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public static AddressEntity fromDto(AddressDTO address) {
-        if (address == null) {
+    public static AddressEntity fromDto(AddressDTO addressDto) {
+        if (addressDto == null) {
             return null;
         }
         AddressEntity addressEntity = new AddressEntity();
-        addressEntity.setAddress(address.getAddress());
-        addressEntity.setComplement(address.getComplement());
-        addressEntity.setCountry(address.getCountry());
-        addressEntity.setId(address.getId());
-        addressEntity.setNeighborhood(address.getNeighborhood());
-        addressEntity.setPostalCode(address.getPostalCode());
-        addressEntity.setState(address.getState());
+        addressEntity.setStreet(addressDto.getStreet());
+        addressEntity.setComplement(addressDto.getComplement());
+        addressEntity.setState(addressDto.getState());
+        addressEntity.setId(addressDto.getId());
+        addressEntity.setNeighborhood(addressDto.getNeighborhood());
+        addressEntity.setPostalCode(addressDto.getPostalCode());
+        addressEntity.setCity(addressDto.getCity());
 
         return addressEntity;
     }
 
-    public static AddressDTO toDto(AddressEntity address) {
-        if (address == null) {
+    public static AddressDTO toDto(AddressEntity addressEntity) {
+        if (addressEntity == null) {
             return null;
         }
-        AddressDTO addressDTO = new AddressDTO();
-        addressDTO.setAddress(address.getAddress());
-        addressDTO.setComplement(address.getComplement());
-        addressDTO.setCountry(address.getCountry());
-        addressDTO.setId(address.getId());
-        addressDTO.setNeighborhood(address.getNeighborhood());
-        addressDTO.setPostalCode(address.getPostalCode());
-        addressDTO.setState(address.getState());
+        AddressDTO addressDto = new AddressDTO();
+        addressDto.setStreet(addressEntity.getStreet());
+        addressDto.setComplement(addressEntity.getComplement());
+        addressDto.setState(addressEntity.getState());
+        addressDto.setId(addressEntity.getId());
+        addressDto.setNeighborhood(addressEntity.getNeighborhood());
+        addressDto.setPostalCode(addressEntity.getPostalCode());
+        addressDto.setCity(addressEntity.getCity());
 
-        return addressDTO;
+        return addressDto;
     }
 
     @Override
@@ -123,11 +125,11 @@ public class AddressDTO {
         return "AddressDTO{" +
                 "id=" + id +
                 ", postalCode='" + postalCode + '\'' +
-                ", address='" + address + '\'' +
+                ", street='" + street + '\'' +
                 ", neighborhood='" + neighborhood + '\'' +
                 ", complement='" + complement + '\'' +
+                ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
-                ", country='" + country + '\'' +
                 '}';
     }
 

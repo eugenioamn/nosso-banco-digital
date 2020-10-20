@@ -36,13 +36,11 @@ public class SwaggerConfig {
                 .filter(Boolean.valueOf(swaggerConfigProperties.getFilter())).maxDisplayedTags(Integer.valueOf(swaggerConfigProperties.getMaxDisplayedTags())).operationsSorter(OperationsSorter.ALPHA)
                 .showExtensions(Boolean.valueOf(swaggerConfigProperties.getShowExtensions())).tagsSorter(TagsSorter.ALPHA)
                 .supportedSubmitMethods(UiConfiguration.Constants.DEFAULT_SUBMIT_METHODS).validatorUrl(null).build();
-
     }
 
     private ApiInfo apiInfo(SwaggerConfigProperties swaggerConfigProperties) {
         return new ApiInfoBuilder().title(swaggerConfigProperties.getTitle()).description(swaggerConfigProperties.getDescription())
                 .version(swaggerConfigProperties.getApiVersion()).build();
-
     }
 
 }

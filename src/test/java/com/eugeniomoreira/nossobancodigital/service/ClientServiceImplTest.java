@@ -20,10 +20,10 @@ import static org.mockito.Mockito.*;
 public class ClientServiceImplTest extends TestSetup {
 
     @InjectMocks
-    private ClientServiceImpl service;
+    private ClientServiceImpl clientServiceImpl;
 
     @Mock
-    private ClientRepository repository;
+    private ClientRepository clientRepository;
 
     @Override
     public void init() {
@@ -32,128 +32,126 @@ public class ClientServiceImplTest extends TestSetup {
     private ClientEntity getClient() {
         ClientEntity clientEntity = new ClientEntity("Eugênio", "Moreira", "teste@teste.com",
                 "01/01/2001", "835.331.640-47", getAddress(), 1);
+
         return clientEntity;
     }
 
     private AddressEntity getAddress() {
         AddressEntity addressEntity = new AddressEntity("45820-000", "Rua Paulino Mendes Lima",
                 "Centro", "Apartamento 305", "Bahia", "Brasil");
+
         return addressEntity;
     }
 
     @Test
     public void saveBasicClientDataTest() {
-        when(repository.save(any(ClientEntity.class))).thenReturn(getClient());
-        service.saveBasicClientData(ClientDTO.toDto(getClient()));
-        verify(repository).save(any(ClientEntity.class));
+        when(clientRepository.save(any(ClientEntity.class))).thenReturn(getClient());
+        clientServiceImpl.saveBasicClientData(ClientDTO.toDto(getClient()));
+        verify(clientRepository).save(any(ClientEntity.class));
     }
 
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataFirstNameNullTest() {
-        when(repository.save(any(ClientEntity.class))).thenReturn(getClient());
         ClientEntity clientEntity = new ClientEntity(null, "Moreira", "teste@teste.com",
                 "01/01/2001", "835.331.640-47", getAddress(), 1);
-        service.saveBasicClientData(ClientDTO.toDto(clientEntity));
-        verify(repository).save(any(ClientEntity.class));
+        clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
+        verify(clientRepository).save(any(ClientEntity.class));
     }
 
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataFirstNameBlankTest() {
-        when(repository.save(any(ClientEntity.class))).thenReturn(getClient());
         ClientEntity clientEntity = new ClientEntity("", "Moreira", "teste@teste.com",
                 "01/01/2001", "835.331.640-47", getAddress(), 1);
-        service.saveBasicClientData(ClientDTO.toDto(clientEntity));
-        verify(repository).save(any(ClientEntity.class));
+        clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
+        verify(clientRepository).save(any(ClientEntity.class));
     }
 
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataFirstNameBlankSpaceTest() {
-        when(repository.save(any(ClientEntity.class))).thenReturn(getClient());
         ClientEntity clientEntity = new ClientEntity("  ", "Moreira", "teste@teste.com",
                 "01/01/2001", "835.331.640-47", getAddress(), 1);
-        service.saveBasicClientData(ClientDTO.toDto(clientEntity));
-        verify(repository).save(any(ClientEntity.class));
+        clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
+        verify(clientRepository).save(any(ClientEntity.class));
     }
 
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataLastNameNullTest() {
-        when(repository.save(any(ClientEntity.class))).thenReturn(getClient());
         ClientEntity clientEntity = new ClientEntity("Eugênio", null, "teste@teste.com",
                 "01/01/2001", "835.331.640-47", getAddress(), 1);
-        service.saveBasicClientData(ClientDTO.toDto(clientEntity));
-        verify(repository).save(any(ClientEntity.class));
+        clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
+        verify(clientRepository).save(any(ClientEntity.class));
     }
 
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataLastNameBlankTest() {
-        when(repository.save(any(ClientEntity.class))).thenReturn(getClient());
         ClientEntity clientEntity = new ClientEntity("Eugênio", "", "teste@teste.com",
                 "01/01/2001", "835.331.640-47", getAddress(), 1);
-        service.saveBasicClientData(ClientDTO.toDto(clientEntity));
-        verify(repository).save(any(ClientEntity.class));
+        clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
+        verify(clientRepository).save(any(ClientEntity.class));
     }
 
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataLastNameBlankSpaceTest() {
-        when(repository.save(any(ClientEntity.class))).thenReturn(getClient());
         ClientEntity clientEntity = new ClientEntity("Eugênio", "  ", "teste@teste.com",
                 "01/01/2001", "835.331.640-47", getAddress(), 1);
-        service.saveBasicClientData(ClientDTO.toDto(clientEntity));
-        verify(repository).save(any(ClientEntity.class));
+        clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
+        verify(clientRepository).save(any(ClientEntity.class));
     }
 
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataEmailNullTest() {
-        when(repository.save(any(ClientEntity.class))).thenReturn(getClient());
         ClientEntity clientEntity = new ClientEntity("Eugênio", "Moreira", null,
                 "01/01/2001", "835.331.640-47", getAddress(), 1);
-        service.saveBasicClientData(ClientDTO.toDto(clientEntity));
-        verify(repository).save(any(ClientEntity.class));
+        clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
+        verify(clientRepository).save(any(ClientEntity.class));
     }
 
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataEmailInvalidTest() {
-        when(repository.save(any(ClientEntity.class))).thenReturn(getClient());
         ClientEntity clientEntity = new ClientEntity("Eugênio", "Moreira", "teste_de_email",
                 "01/01/2001", "835.331.640-47", getAddress(), 1);
-        service.saveBasicClientData(ClientDTO.toDto(clientEntity));
-        verify(repository).save(any(ClientEntity.class));
+        clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
+        verify(clientRepository).save(any(ClientEntity.class));
     }
 
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataBirthdateNullTest() {
-        when(repository.save(any(ClientEntity.class))).thenReturn(getClient());
         ClientEntity clientEntity = new ClientEntity("Eugênio", "Moreira", "teste@teste.com",
                 null, "835.331.640-47", getAddress(), 1);
-        service.saveBasicClientData(ClientDTO.toDto(clientEntity));
-        verify(repository).save(any(ClientEntity.class));
+        clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
+        verify(clientRepository).save(any(ClientEntity.class));
     }
 
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataBirthdateInvalidTest() {
-        when(repository.save(any(ClientEntity.class))).thenReturn(getClient());
         ClientEntity clientEntity = new ClientEntity("Eugênio", "Moreira", "teste@teste.com",
                 "01012001", "835.331.640-47", getAddress(), 1);
-        service.saveBasicClientData(ClientDTO.toDto(clientEntity));
-        verify(repository).save(any(ClientEntity.class));
+        clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
+        verify(clientRepository).save(any(ClientEntity.class));
+    }
+
+    @Test(expected = BadRequestException.class)
+    public void saveBasicClientDataBirthdateUnderageTest() {
+        ClientEntity clientEntity = new ClientEntity("Eugênio", "Moreira", "teste@teste.com",
+                "01/01/2003", "835.331.640-47", getAddress(), 1);
+        clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
+        verify(clientRepository).save(any(ClientEntity.class));
     }
 
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataCpfNullTest() {
-        when(repository.save(any(ClientEntity.class))).thenReturn(getClient());
         ClientEntity clientEntity = new ClientEntity("Eugênio", "Moreira", "teste@teste.com",
                 "01/01/2001", null, getAddress(), 1);
-        service.saveBasicClientData(ClientDTO.toDto(clientEntity));
-        verify(repository).save(any(ClientEntity.class));
+        clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
+        verify(clientRepository).save(any(ClientEntity.class));
     }
 
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataCpfInvalidTest() {
-        when(repository.save(any(ClientEntity.class))).thenReturn(getClient());
         ClientEntity clientEntity = new ClientEntity("Eugênio", "Moreira", "teste@teste.com",
                 "01/01/2001", "83533164047", getAddress(), 1);
-        service.saveBasicClientData(ClientDTO.toDto(clientEntity));
-        verify(repository).save(any(ClientEntity.class));
+        clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
+        verify(clientRepository).save(any(ClientEntity.class));
     }
 
 }

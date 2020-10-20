@@ -11,7 +11,7 @@ public abstract class TestSetup {
 
     @BeforeAll
     public static void setUp() {
-        FixtureFactoryLoader.loadTemplates("com.eugeniomoreira.nossobancodigital");
+        FixtureFactoryLoader.loadTemplates("com.eugeniomoreira.bancodigitalzup");
     }
 
     @Before

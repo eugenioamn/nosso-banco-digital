@@ -21,20 +21,20 @@ public class ClientDTO {
     private String document;
 
     @JsonProperty("address")
-    private AddressDTO addressDTO;
+    private AddressDTO addressDto;
 
     private Integer proposalStatus;
 
     public ClientDTO() {
     }
 
-    public ClientDTO(String firstName, String lastName, String email, String birthDate, String document, AddressDTO addressDTO, Integer proposalStatus) {
+    public ClientDTO(String firstName, String lastName, String email, String birthDate, String document, AddressDTO addressDto, Integer proposalStatus) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.birthDate = birthDate;
         this.document = document;
-        this.addressDTO = addressDTO;
+        this.addressDto = addressDto;
         this.proposalStatus = proposalStatus;
     }
 
@@ -86,12 +86,12 @@ public class ClientDTO {
         this.document = document;
     }
 
-    public AddressDTO getAddressDTO() {
-        return addressDTO;
+    public AddressDTO getAddressDto() {
+        return addressDto;
     }
 
-    public void setAddressDTO(AddressDTO addressDTO) {
-        this.addressDTO = addressDTO;
+    public void setAddressDto(AddressDTO addressDto) {
+        this.addressDto = addressDto;
     }
 
     public Integer getProposalStatus() {
@@ -102,30 +102,32 @@ public class ClientDTO {
         this.proposalStatus = proposalStatus;
     }
 
-    public static ClientEntity fromDto(ClientDTO clientDTO) {
-        ClientEntity client = new ClientEntity();
-        client.setBirthDate(clientDTO.getBirthDate());
-        client.setDocument(clientDTO.getDocument());
-        client.setEmail(clientDTO.getEmail());
-        client.setFirstName(clientDTO.getFirstName());
-        client.setLastName(clientDTO.getLastName());
-        client.setAddress(AddressDTO.fromDto(clientDTO.getAddressDTO()));
-        client.setProposalStatus(clientDTO.getProposalStatus());
+    public static ClientEntity fromDto(ClientDTO clientDto) {
+        ClientEntity clientEntity = new ClientEntity();
+        clientEntity.setId(clientDto.getId());
+        clientEntity.setBirthDate(clientDto.getBirthDate());
+        clientEntity.setDocument(clientDto.getDocument());
+        clientEntity.setEmail(clientDto.getEmail());
+        clientEntity.setFirstName(clientDto.getFirstName());
+        clientEntity.setLastName(clientDto.getLastName());
+        clientEntity.setAddress(AddressDTO.fromDto(clientDto.getAddressDto()));
+        clientEntity.setProposalStatus(clientDto.getProposalStatus());
 
-        return client;
+        return clientEntity;
     }
 
-    public static ClientDTO toDto(ClientEntity client) {
-        ClientDTO clientDTO = new ClientDTO();
-        clientDTO.setBirthDate(client.getBirthDate());
-        clientDTO.setDocument(client.getDocument());
-        clientDTO.setEmail(client.getEmail());
-        clientDTO.setFirstName(client.getFirstName());
-        clientDTO.setLastName(client.getLastName());
-        clientDTO.setAddressDTO(AddressDTO.toDto(client.getAddress()));
-        clientDTO.setProposalStatus(client.getProposalStatus());
+    public static ClientDTO toDto(ClientEntity clientEntity) {
+        ClientDTO clientDto = new ClientDTO();
+        clientDto.setId(clientEntity.getId());
+        clientDto.setBirthDate(clientEntity.getBirthDate());
+        clientDto.setDocument(clientEntity.getDocument());
+        clientDto.setEmail(clientEntity.getEmail());
+        clientDto.setFirstName(clientEntity.getFirstName());
+        clientDto.setLastName(clientEntity.getLastName());
+        clientDto.setAddressDto(AddressDTO.toDto(clientEntity.getAddress()));
+        clientDto.setProposalStatus(clientEntity.getProposalStatus());
 
-        return clientDTO;
+        return clientDto;
     }
 
     @Override
@@ -137,7 +139,7 @@ public class ClientDTO {
                 ", email='" + email + '\'' +
                 ", birthDate='" + birthDate + '\'' +
                 ", document='" + document + '\'' +
-                ", addressDTO=" + addressDTO +
+                ", addressDto=" + addressDto +
                 ", proposalStatus=" + proposalStatus +
                 '}';
     }

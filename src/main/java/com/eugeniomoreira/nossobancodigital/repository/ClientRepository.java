@@ -6,4 +6,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ClientRepository extends CrudRepository<ClientEntity, Long> {
+
+    Long countByEmail(String email);
+
+    Long countByDocument(String cpf);
+
 }

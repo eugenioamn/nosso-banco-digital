@@ -22,7 +22,7 @@ application:
     enabled: false
     title: log-demo API
     description: "Sample Swagger implementation for the `demo-api` service, leveraging annotations at the controller-method level."
-    basePackage: com.eugeniomoreira.bancodigitalzup.api
+    basePackage: com.eugeniomoreira.nossobancodigital.api
     useDefaultResponseMessages: false
     enableUrlTemplating: false
     deepLinking: true

@@ -1,36 +1,39 @@
 package com.eugeniomoreira.nossobancodigital.domain.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class AddressEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String postalCode;
 
-    private String address;
+    private String street;
 
     private String neighborhood;
 
     private String complement;
 
-    private String state;
+    private String city;
 
-    private String country;
+    private String state;
 
     public AddressEntity() {
     }
 
-    public AddressEntity(String postalCode, String address, String neighborhood, String complement, String state, String country) {
+    public AddressEntity(String postalCode, String street, String neighborhood, String complement, String city, String state) {
         this.postalCode = postalCode;
-        this.address = address;
+        this.street = street;
         this.neighborhood = neighborhood;
         this.complement = complement;
+        this.city = city;
         this.state = state;
-        this.country = country;
     }
 
     public Long getId() {
@@ -49,12 +52,12 @@ public class AddressEntity {
         this.postalCode = postalCode;
     }
 
-    public String getAddress() {
-        return address;
+    public String getStreet() {
+        return street;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStreet(String address) {
+        this.street = address;
     }
 
     public String getNeighborhood() {
@@ -73,20 +76,20 @@ public class AddressEntity {
         this.complement = complement;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String state) {
+        this.city = state;
+    }
+
     public String getState() {
         return state;
     }
 
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
+    public void setState(String country) {
+        this.state = country;
     }
 
     @Override
@@ -94,11 +97,11 @@ public class AddressEntity {
         return "AddressEntity{" +
                 "id=" + id +
                 ", postalCode='" + postalCode + '\'' +
-                ", address='" + address + '\'' +
+                ", street='" + street + '\'' +
                 ", neighborhood='" + neighborhood + '\'' +
                 ", complement='" + complement + '\'' +
+                ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
-                ", country='" + country + '\'' +
                 '}';
     }
 
