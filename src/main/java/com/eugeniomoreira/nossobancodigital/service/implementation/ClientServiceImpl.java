@@ -4,8 +4,9 @@ import com.eugeniomoreira.nossobancodigital.domain.dto.AddressDTO;
 import com.eugeniomoreira.nossobancodigital.domain.entity.ClientEntity;
 import com.eugeniomoreira.nossobancodigital.domain.dto.ClientDTO;
 import com.eugeniomoreira.nossobancodigital.domain.enumerable.ProposalStatus;
-import com.eugeniomoreira.nossobancodigital.domain.exception.ClientNotFoundException;
+import com.eugeniomoreira.nossobancodigital.domain.exception.NotFoundException;
 import com.eugeniomoreira.nossobancodigital.repository.ClientRepository;
+import com.eugeniomoreira.nossobancodigital.service.AddressService;
 import com.eugeniomoreira.nossobancodigital.service.ClientService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -34,8 +35,11 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
 
-    public ClientServiceImpl(ClientRepository clientRepository) {
+    private final AddressService addressService;
+
+    public ClientServiceImpl(ClientRepository clientRepository, AddressService addressService) {
         this.clientRepository = clientRepository;
+        this.addressService = addressService;
     }
 
     @Override
@@ -43,33 +47,31 @@ public class ClientServiceImpl implements ClientService {
         validation(clientDto);
 
         ClientEntity clientEntity = ClientDTO.fromDto(clientDto);
-        clientEntity.setProposalStatus(ProposalStatus.PENDING.getN());
 
         return ClientDTO.toDto(clientRepository.save(clientEntity));
     }
 
     @Override
-    public ClientDTO updateClientWithAddress(Long clientId, AddressDTO addressDTO) throws ClientNotFoundException {
-        ClientEntity clientEntity = clientRepository.findById(clientId).orElseThrow(ClientNotFoundException::new);
+    public ClientDTO updateClientWithAddress(Long clientId, AddressDTO addressDTO) throws NotFoundException {
+        ClientEntity clientEntity = clientRepository.findById(clientId).orElseThrow(NotFoundException::new);
+
+        addressService.validation(addressDTO);
+
         clientEntity.setAddress(AddressDTO.fromDto(addressDTO));
         clientRepository.save(clientEntity);
         return ClientDTO.toDto(clientEntity);
     }
 
     @Override
-    public ClientDTO getClientProposal(Long clientId) throws ClientNotFoundException {
-        return ClientDTO.toDto(clientRepository.findById(clientId).orElseThrow(ClientNotFoundException::new));
+    public ClientDTO getClientProposal(Long clientId) throws NotFoundException {
+        return ClientDTO.toDto(clientRepository.findById(clientId).orElseThrow(NotFoundException::new));
     }
 
     @Override
-    public void answerProposal(Long clientId, Integer status) throws ClientNotFoundException {
-        if (status != 1 && status != 2 && status != 3) {
-            return;
-        }
-        ClientEntity clientEntity = clientRepository.findById(clientId).orElseThrow(ClientNotFoundException::new);
-        if (clientEntity.getProposalStatus() == ProposalStatus.PENDING.getN()) {
-            clientEntity.setProposalStatus(status);
-        }
+    public ClientDTO saveDocumentFile(Long clientId, String documentFile) throws NotFoundException {
+        ClientEntity clientEntity = clientRepository.findById(clientId).orElseThrow(NotFoundException::new);
+        clientEntity.setDocumentFile(documentFile);
+        return ClientDTO.toDto(clientRepository.save(clientEntity));
     }
 
     private void validation(ClientDTO clientDto) {
@@ -87,6 +89,13 @@ public class ClientServiceImpl implements ClientService {
                     return matcher.matches();
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid email"));
+
+        if (clientDto.getEmail() != null) {
+            Long countEmail = clientRepository.countByEmail(clientDto.getEmail());
+            if (countEmail > 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists");
+            }
+        }
 
         Optional.ofNullable(clientDto.getBirthDate())
                 .filter(birthdate -> {
@@ -113,14 +122,11 @@ public class ClientServiceImpl implements ClientService {
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid cpf"));
 
-        Long count = clientRepository.countByDocument(clientDto.getDocument());
-        if (count > 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cpf already exists");
-        }
-
-        Long countEmail = clientRepository.countByEmail(clientDto.getEmail());
-        if (countEmail > 0) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists");
+        if (clientDto.getDocument() != null) {
+            Long countDocument = clientRepository.countByDocument(clientDto.getDocument());
+            if (countDocument > 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cpf already exists");
+            }
         }
     }
 

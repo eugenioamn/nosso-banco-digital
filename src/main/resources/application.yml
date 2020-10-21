@@ -20,9 +20,9 @@ application:
   swagger:
     version: 1.0
     enabled: false
-    title: log-demo API
-    description: "Sample Swagger implementation for the `demo-api` service, leveraging annotations at the controller-method level."
-    basePackage: com.eugeniomoreira.nossobancodigital.api
+    title: Banco Digital Zup API
+    description: ""
+    basePackage: com.eugeniomoreira.bancodigitalzup.api
     useDefaultResponseMessages: false
     enableUrlTemplating: false
     deepLinking: true

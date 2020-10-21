@@ -1,43 +1,74 @@
 package com.eugeniomoreira.nossobancodigital.api;
 
 import com.eugeniomoreira.nossobancodigital.domain.dto.AddressDTO;
+import com.eugeniomoreira.nossobancodigital.domain.dto.AnswerProposalDTO;
 import com.eugeniomoreira.nossobancodigital.domain.dto.ClientDTO;
-import com.eugeniomoreira.nossobancodigital.domain.exception.ClientNotFoundException;
-import com.eugeniomoreira.nossobancodigital.service.ClientService;
+import com.eugeniomoreira.nossobancodigital.domain.dto.ProposalDTO;
+import com.eugeniomoreira.nossobancodigital.domain.exception.NotFoundException;
+import com.eugeniomoreira.nossobancodigital.service.ProposalService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
-@RequestMapping("/api/v1/client")
+@RequestMapping("/api/v1/proposal")
 public class ClientApi {
 
-    private final ClientService clientService;
+    private final ProposalService proposalService;
 
-    public ClientApi(ClientService clientService) {
-        this.clientService = clientService;
+    public ClientApi(ProposalService proposalService) {
+        this.proposalService = proposalService;
     }
 
-    @PostMapping("/create")
+    @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
-    public ClientDTO saveBasicData(@Validated @RequestBody ClientDTO clientDto) {
-        return clientService.saveBasicClientData(clientDto);
+    public ResponseEntity<ProposalDTO> saveBasicData(@Validated @RequestBody ClientDTO clientDto) {
+
+        ProposalDTO result = proposalService.createProposal(clientDto);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{proposalId}/address")
+                .buildAndExpand(result.getId()).toUri();
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .location(location)
+                .body(result);
     }
 
-    @PostMapping("/create/{clientId}/updateAddress")
+    @PostMapping("/{proposalId}/address")
     @ResponseStatus(HttpStatus.CREATED)
-    public ClientDTO saveClientAddress(@Validated @PathVariable("clientId") Long clientId, @Validated @RequestBody AddressDTO addressDTO) throws ClientNotFoundException {
-        return clientService.updateClientWithAddress(clientId, addressDTO);
+    public ResponseEntity<ProposalDTO> saveClientAddress(@Validated @PathVariable("proposalId") Long proposalId, @Validated @RequestBody AddressDTO addressDTO) throws NotFoundException {
+
+        ProposalDTO result = proposalService.addAddressData(proposalId, addressDTO);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{proposalId}/document")
+                .buildAndExpand(result.getId()).toUri();
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .location(location)
+                .body(result);
     }
 
-    @GetMapping("/create/{clientId}/proposal")
-    public ClientDTO getClientProposal(@Validated @PathVariable("clientId") Long clientId) throws ClientNotFoundException {
-        return clientService.getClientProposal(clientId);
+    @PostMapping("/{proposalId}/document")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<ProposalDTO> saveClientDocument(@Validated @PathVariable("proposalId") Long proposalId, @Validated @RequestBody AddressDTO addressDTO) throws NotFoundException {
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PostMapping("/create/{clientId}/proposal/{status}")
-    public void answerProposal(@Validated @PathVariable("clientId") Long clientId, @Validated @PathVariable("status") Integer status) throws ClientNotFoundException {
-        clientService.answerProposal(clientId, status);
+    @GetMapping("/{proposalId}")
+    public ProposalDTO getClientProposal(@Validated @PathVariable("proposalId") Long proposalId) throws NotFoundException {
+        return proposalService.getClientData(proposalId);
+    }
+
+    @PostMapping("/{proposalId}/answer/{status}")
+    public ResponseEntity<AnswerProposalDTO> answerProposal(@Validated @PathVariable("proposalId") Long proposalId, @Validated @PathVariable("status") Integer status) throws NotFoundException {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(proposalService.proposalAnswer(proposalId, status));
     }
 
 }

@@ -3,6 +3,7 @@ package com.eugeniomoreira.nossobancodigital.domain.entity;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "client")
 public class ClientEntity {
 
     @Id
@@ -21,22 +22,22 @@ public class ClientEntity {
     @Column(unique = true)
     private String document;
 
+    private String documentFile;
+
     @OneToOne(cascade = CascadeType.PERSIST)
     private AddressEntity address;
-
-    private Integer proposalStatus;
 
     public ClientEntity() {
     }
 
-    public ClientEntity(String firstName, String lastName, String email, String birthDate, String document, AddressEntity address, Integer proposalStatus) {
+    public ClientEntity(String firstName, String lastName, String email, String birthDate, String document, String documentFile, AddressEntity address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.birthDate = birthDate;
         this.document = document;
+        this.documentFile = documentFile;
         this.address = address;
-        this.proposalStatus = proposalStatus;
     }
 
     public Long getId() {
@@ -87,20 +88,20 @@ public class ClientEntity {
         this.document = document;
     }
 
+    public String getDocumentFile() {
+        return documentFile;
+    }
+
+    public void setDocumentFile(String documentFile) {
+        this.documentFile = documentFile;
+    }
+
     public AddressEntity getAddress() {
         return address;
     }
 
     public void setAddress(AddressEntity address) {
         this.address = address;
-    }
-
-    public Integer getProposalStatus() {
-        return proposalStatus;
-    }
-
-    public void setProposalStatus(Integer proposalStatus) {
-        this.proposalStatus = proposalStatus;
     }
 
     @Override
@@ -112,9 +113,8 @@ public class ClientEntity {
                 ", email='" + email + '\'' +
                 ", birthDate='" + birthDate + '\'' +
                 ", document='" + document + '\'' +
+                ", documentFile='" + documentFile + '\'' +
                 ", address=" + address +
-                ", proposalStatus=" + proposalStatus +
                 '}';
     }
-
 }

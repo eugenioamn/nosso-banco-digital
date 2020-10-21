@@ -31,7 +31,7 @@ public class ClientServiceImplTest extends TestSetup {
 
     private ClientEntity getClient() {
         ClientEntity clientEntity = new ClientEntity("Eugênio", "Moreira", "teste@teste.com",
-                "01/01/2001", "835.331.640-47", getAddress(), 1);
+                "01/01/2001", "835.331.640-47", "/arquivo.png", getAddress());
 
         return clientEntity;
     }
@@ -53,7 +53,7 @@ public class ClientServiceImplTest extends TestSetup {
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataFirstNameNullTest() {
         ClientEntity clientEntity = new ClientEntity(null, "Moreira", "teste@teste.com",
-                "01/01/2001", "835.331.640-47", getAddress(), 1);
+                "01/01/2001", "835.331.640-47", "/arquivo.png", getAddress());
         clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
         verify(clientRepository).save(any(ClientEntity.class));
     }
@@ -61,7 +61,7 @@ public class ClientServiceImplTest extends TestSetup {
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataFirstNameBlankTest() {
         ClientEntity clientEntity = new ClientEntity("", "Moreira", "teste@teste.com",
-                "01/01/2001", "835.331.640-47", getAddress(), 1);
+                "01/01/2001", "835.331.640-47", "/arquivo.png", getAddress());
         clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
         verify(clientRepository).save(any(ClientEntity.class));
     }
@@ -69,7 +69,7 @@ public class ClientServiceImplTest extends TestSetup {
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataFirstNameBlankSpaceTest() {
         ClientEntity clientEntity = new ClientEntity("  ", "Moreira", "teste@teste.com",
-                "01/01/2001", "835.331.640-47", getAddress(), 1);
+                "01/01/2001", "835.331.640-47", "/arquivo.png", getAddress());
         clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
         verify(clientRepository).save(any(ClientEntity.class));
     }
@@ -77,7 +77,7 @@ public class ClientServiceImplTest extends TestSetup {
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataLastNameNullTest() {
         ClientEntity clientEntity = new ClientEntity("Eugênio", null, "teste@teste.com",
-                "01/01/2001", "835.331.640-47", getAddress(), 1);
+                "01/01/2001", "835.331.640-47", "/arquivo.png", getAddress());
         clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
         verify(clientRepository).save(any(ClientEntity.class));
     }
@@ -85,7 +85,7 @@ public class ClientServiceImplTest extends TestSetup {
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataLastNameBlankTest() {
         ClientEntity clientEntity = new ClientEntity("Eugênio", "", "teste@teste.com",
-                "01/01/2001", "835.331.640-47", getAddress(), 1);
+                "01/01/2001", "835.331.640-47", "/arquivo.png", getAddress());
         clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
         verify(clientRepository).save(any(ClientEntity.class));
     }
@@ -93,7 +93,7 @@ public class ClientServiceImplTest extends TestSetup {
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataLastNameBlankSpaceTest() {
         ClientEntity clientEntity = new ClientEntity("Eugênio", "  ", "teste@teste.com",
-                "01/01/2001", "835.331.640-47", getAddress(), 1);
+                "01/01/2001", "835.331.640-47", "/arquivo.png", getAddress());
         clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
         verify(clientRepository).save(any(ClientEntity.class));
     }
@@ -101,7 +101,7 @@ public class ClientServiceImplTest extends TestSetup {
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataEmailNullTest() {
         ClientEntity clientEntity = new ClientEntity("Eugênio", "Moreira", null,
-                "01/01/2001", "835.331.640-47", getAddress(), 1);
+                "01/01/2001", "835.331.640-47", "/arquivo.png", getAddress());
         clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
         verify(clientRepository).save(any(ClientEntity.class));
     }
@@ -109,7 +109,7 @@ public class ClientServiceImplTest extends TestSetup {
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataEmailInvalidTest() {
         ClientEntity clientEntity = new ClientEntity("Eugênio", "Moreira", "teste_de_email",
-                "01/01/2001", "835.331.640-47", getAddress(), 1);
+                "01/01/2001", "835.331.640-47", "/arquivo.png", getAddress());
         clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
         verify(clientRepository).save(any(ClientEntity.class));
     }
@@ -117,7 +117,7 @@ public class ClientServiceImplTest extends TestSetup {
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataBirthdateNullTest() {
         ClientEntity clientEntity = new ClientEntity("Eugênio", "Moreira", "teste@teste.com",
-                null, "835.331.640-47", getAddress(), 1);
+                null, "835.331.640-47", "/arquivo.png", getAddress());
         clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
         verify(clientRepository).save(any(ClientEntity.class));
     }
@@ -125,7 +125,7 @@ public class ClientServiceImplTest extends TestSetup {
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataBirthdateInvalidTest() {
         ClientEntity clientEntity = new ClientEntity("Eugênio", "Moreira", "teste@teste.com",
-                "01012001", "835.331.640-47", getAddress(), 1);
+                "01012001", "835.331.640-47", "/arquivo.png", getAddress());
         clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
         verify(clientRepository).save(any(ClientEntity.class));
     }
@@ -133,7 +133,7 @@ public class ClientServiceImplTest extends TestSetup {
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataBirthdateUnderageTest() {
         ClientEntity clientEntity = new ClientEntity("Eugênio", "Moreira", "teste@teste.com",
-                "01/01/2003", "835.331.640-47", getAddress(), 1);
+                "01/01/2003", "835.331.640-47", "/arquivo.png", getAddress());
         clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
         verify(clientRepository).save(any(ClientEntity.class));
     }
@@ -141,7 +141,7 @@ public class ClientServiceImplTest extends TestSetup {
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataCpfNullTest() {
         ClientEntity clientEntity = new ClientEntity("Eugênio", "Moreira", "teste@teste.com",
-                "01/01/2001", null, getAddress(), 1);
+                "01/01/2001", null, "/arquivo.png", getAddress());
         clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
         verify(clientRepository).save(any(ClientEntity.class));
     }
@@ -149,7 +149,7 @@ public class ClientServiceImplTest extends TestSetup {
     @Test(expected = BadRequestException.class)
     public void saveBasicClientDataCpfInvalidTest() {
         ClientEntity clientEntity = new ClientEntity("Eugênio", "Moreira", "teste@teste.com",
-                "01/01/2001", "83533164047", getAddress(), 1);
+                "01/01/2001", "83533164047", "/arquivo.png", getAddress());
         clientServiceImpl.saveBasicClientData(ClientDTO.toDto(clientEntity));
         verify(clientRepository).save(any(ClientEntity.class));
     }
