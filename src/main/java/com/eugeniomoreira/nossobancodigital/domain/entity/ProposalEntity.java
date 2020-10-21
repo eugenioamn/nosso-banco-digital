@@ -12,7 +12,6 @@ public class ProposalEntity {
 
     private Integer status;
 
-    //    @JoinColumn(name = "client_id", referencedColumnName = "id")
     @ManyToOne(targetEntity = ClientEntity.class)
     private ClientEntity client;
 
@@ -48,5 +47,4 @@ public class ProposalEntity {
     public void setClient(ClientEntity client) {
         this.client = client;
     }
-
 }

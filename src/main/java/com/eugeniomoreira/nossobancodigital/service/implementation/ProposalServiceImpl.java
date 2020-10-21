@@ -9,6 +9,7 @@ import com.eugeniomoreira.nossobancodigital.domain.enumerable.ProposalStatus;
 import com.eugeniomoreira.nossobancodigital.domain.exception.NotFoundException;
 import com.eugeniomoreira.nossobancodigital.repository.ProposalRepository;
 import com.eugeniomoreira.nossobancodigital.service.ClientService;
+import com.eugeniomoreira.nossobancodigital.service.NewAccountService;
 import com.eugeniomoreira.nossobancodigital.service.ProposalService;
 import com.eugeniomoreira.nossobancodigital.service.UploadService;
 import org.springframework.stereotype.Service;
@@ -17,16 +18,19 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class ProposalServiceImpl implements ProposalService {
 
-    private ProposalRepository proposalRepository;
+    private final ProposalRepository proposalRepository;
 
-    private ClientService clientService;
+    private final ClientService clientService;
 
-    private UploadService uploadService;
+    private final UploadService uploadService;
 
-    public ProposalServiceImpl(ProposalRepository proposalRepository, ClientService clientService, UploadService uploadService) {
+    private final NewAccountService newAccountService;
+
+    public ProposalServiceImpl(ProposalRepository proposalRepository, ClientService clientService, UploadService uploadService, NewAccountService newAccountService) {
         this.proposalRepository = proposalRepository;
         this.clientService = clientService;
         this.uploadService = uploadService;
+        this.newAccountService = newAccountService;
     }
 
     @Override
@@ -75,6 +79,10 @@ public class ProposalServiceImpl implements ProposalService {
         }
 
         proposalRepository.save(proposalEntity);
+
+        if(status == ProposalStatus.ACCEPTED.getN()) {
+            newAccountService.createAccount(proposalEntity);
+        }
 
         AnswerProposalDTO answerProposalDTO = new AnswerProposalDTO();
         answerProposalDTO.setMessage(getMessage(status));

@@ -29,5 +29,4 @@ public class AnswerProposalDTO {
     public void setMessage(String message) {
         this.message = message;
     }
-
 }

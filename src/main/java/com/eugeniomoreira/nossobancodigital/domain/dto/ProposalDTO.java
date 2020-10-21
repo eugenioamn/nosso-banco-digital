@@ -51,4 +51,5 @@ public class ProposalDTO {
 
         return entity;
     }
+
 }
